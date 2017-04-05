@@ -32,6 +32,21 @@
         </StackPanel>
         <DataGrid ItemsSource="{Binding WorkPlanElements}" Width="650" Grid.Row="1" Grid.Column="0" 
                   SelectedItem="{Binding EditedWorkPlanElement}">
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.CellStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="WORKER" Binding="{Binding Worker.Name}" Width="130"/>
                 <DataGridTextColumn Header="ROOM" Binding="{Binding Room.Name}" Width="120"/>

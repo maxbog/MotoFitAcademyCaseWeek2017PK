@@ -119,8 +119,8 @@ namespace OpenDayApplication.Viewmodel
       if (TimeList == null)
       {
         TimeList = new List<TimeSpan>();
-        var endTime = new TimeSpan(23, 0, 0);
-        var time = new TimeSpan(6, 0, 0);
+        var endTime = new TimeSpan(17, 0, 0);
+        var time = new TimeSpan(9, 0, 0);
         while (time <= endTime)
         {
           TimeList.Add(time);

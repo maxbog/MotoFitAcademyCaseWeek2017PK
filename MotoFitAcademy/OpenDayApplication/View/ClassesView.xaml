@@ -29,10 +29,25 @@
             <Button Content="Create report"/>
         </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Classes}" Grid.Column="0" Grid.RowSpan="2"
-                  SelectedItem="{Binding EditedClass}" SelectionChanged="DataGrid_SelectionChanged">
+                  SelectedItem="{Binding EditedClass}" >
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.CellStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="NAME" Binding="{Binding Name}" Width="280"/>
-                <DataGridTextColumn Header="Difficulty Level" Binding="{Binding Popularity}" Width="160"/>
+                <DataGridTextColumn Header="Difficulty Level" Binding="{Binding Difficulty_Level}" Width="160"/>
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" Grid.Column="1" Margin="7,5,0,5" Visibility="{Binding IsClassEditVisible, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -46,9 +61,9 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Name"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Popularity"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Difficulty Level"/>
             <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding EditedClass.Name}"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding EditedClass.Popularity}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding EditedClass.Difficulty_Level}"/>
             <Button Grid.Row="2" Grid.Column="0" Content="Cancel" Command="{Binding CancelCommand}"/>
             <Button Grid.Row="2" Grid.Column="1" Content="Save" Command="{Binding SaveCommand}"/>
         </Grid>
