@@ -61,7 +61,7 @@ namespace OpenDayApplication.Viewmodel
         {
             _clientsManager = GetClientsManager();
             AddClientCommand = new BaseCommand(AddClient);
-      EditClientCommand = new BaseCommand(EditClient);
+      	    EditClientCommand = new BaseCommand(EditClient);
             DeleteClientCommand = new BaseCommand(DeleteClient);
             SaveCommand = new BaseCommand(SaveChanges);
             CancelCommand = new BaseCommand(Cancel);
@@ -124,7 +124,7 @@ namespace OpenDayApplication.Viewmodel
         public void SaveChanges()
         {
 
-            EmailIsValid(EditedClient.Address);
+            this.EmailIsValid(EditedClient.Address);
 
             if (isValid == false)
             {
@@ -134,8 +134,6 @@ namespace OpenDayApplication.Viewmodel
             {
                 try
                 {
-                if (_clientsManager.GetClients().Any(client => client.Address == EditedClient.Address))
-                        throw new InvalidOperationException("Client with specified e-mail address already exists!");
 
           switch (_selectedOperation)
           {
@@ -147,10 +145,6 @@ namespace OpenDayApplication.Viewmodel
                   break;
           }
         
-                }
-                catch (InvalidOperationException e)
-                {
-                    MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception)
                 {
@@ -183,9 +177,10 @@ namespace OpenDayApplication.Viewmodel
             }
         }
 
-        internal static bool EmailIsValid(string emailAddress)
+        internal bool EmailIsValid(string emailAddress)
         {
-            isValid = ValidEmailRegex.IsMatch(emailAddress);
+            isValid = ValidEmailRegex.IsMatch(emailAddress) &&
+                      _clientsManager.GetClients().All(client => client.Address != emailAddress);
 
             return isValid;
         }
