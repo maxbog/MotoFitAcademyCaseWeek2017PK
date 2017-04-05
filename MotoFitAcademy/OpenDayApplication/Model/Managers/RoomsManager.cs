@@ -26,7 +26,13 @@ namespace OpenDayApplication.Model.Managers
       using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
       {
         dataContext.Rooms.InsertOnSubmit(room);
-        dataContext.SubmitChanges();
+        try { dataContext.SubmitChanges(); }
+        catch (System.Exception e)
+        {
+            System.Windows.MessageBox.Show("Room name can't be empty");
+        }
+               
+      
       }
     }
     public void EditRoom(Room room)

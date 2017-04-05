@@ -63,5 +63,12 @@
             <Button Grid.Row="3" Grid.Column="0" Content="Cancel" Command="{Binding CancelCommand}"/>
             <Button Grid.Row="3" Grid.Column="1" Content="Save" Command="{Binding SaveCommand}"/>
         </Grid>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Room}" Grid.Column="0" Grid.RowSpan="2"
+                  SelectedItem="{Binding EditedRoom}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="NAME" Binding="{Binding Name}" Width="145"/>
+                <DataGridTextColumn Header="CAPACITY" Binding="{Binding Capacity}" Width="145"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

@@ -29,10 +29,10 @@
             <Button Content="Create report"/>
         </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Classes}" Grid.Column="0" Grid.RowSpan="2"
-                  SelectedItem="{Binding EditedClass}">
+                  SelectedItem="{Binding EditedClass}" SelectionChanged="DataGrid_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="NAME" Binding="{Binding Name}" Width="280"/>
-                <DataGridTextColumn Header="POPULARITY" Binding="{Binding Popularity}" Width="160"/>
+                <DataGridTextColumn Header="Difficulty Level" Binding="{Binding Popularity}" Width="160"/>
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" Grid.Column="1" Margin="7,5,0,5" Visibility="{Binding IsClassEditVisible, Converter={StaticResource BoolToVisibilityConverter}}">
