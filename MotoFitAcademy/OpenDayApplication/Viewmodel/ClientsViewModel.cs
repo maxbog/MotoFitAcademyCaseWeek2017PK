@@ -5,6 +5,7 @@
 #endregion
 using OpenDayApplication.Model;
 using OpenDayApplication.Model.Managers;
+using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 
@@ -90,7 +91,14 @@ namespace OpenDayApplication.Viewmodel
 
     private void RefreshClients()
     {
-      Clients = new List<Client>(_clientsManager.GetClients());
+            try
+            {
+                Clients = new List<Client>(_clientsManager.GetClients());
+            }
+            catch(Exception)
+            {
+                System.Windows.MessageBox.Show("Can't get client list", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
     }
   }
 }
