@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using OpenDayApplication.Model;
 using OpenDayApplication.Model.Managers;
 using System.Windows.Input;
+using System.Text.RegularExpressions;
 using System.Windows;
+
 
 namespace OpenDayApplication.Viewmodel
 {
@@ -56,7 +58,29 @@ namespace OpenDayApplication.Viewmodel
       }
     }
 
-    public RoomsViewModel()
+
+
+
+        static Regex ValidCapacityRegex = CreateValidCapRegex();
+
+
+        private static Regex CreateValidCapRegex()
+        {
+            string validCapPattern = @"^[1-9][0-9]?$|^100$";
+                
+            return new Regex(validCapPattern, RegexOptions.IgnoreCase);
+        }
+
+        static bool isValid;
+
+        internal static bool CapIsValid(string capacity)
+        {
+            isValid = ValidCapacityRegex.IsMatch(capacity);
+
+            return isValid;
+        }
+
+        public RoomsViewModel()
     {
       _roomsManager = GetRoomsManager();
       AddRoomCommand = new BaseCommand(AddRoom);
@@ -87,20 +111,29 @@ namespace OpenDayApplication.Viewmodel
       }
     }
 
-    public void SaveChanges()
-    {
-      switch (_selectedOperation)
-      {
-        case CrudOperation.Create:
+    public void SaveChanges() { 
+    
+            CapIsValid(System.Convert.ToString(EditedRoom.Capacity));
+            if (isValid)
+            {
+                switch (_selectedOperation)
+                {
+                    case CrudOperation.Create:
           _roomsManager.AddRoom(EditedRoom);
-          break;
-        case CrudOperation.Edit:
-          _roomsManager.EditRoom(EditedRoom);
-          break;
-      }
-      IsRoomEditVisible = false;
-            RefreshRooms();
-    }
+                        break;
+                    case CrudOperation.Edit:
+
+
+                        _roomsManager.EditRoom(EditedRoom);
+                        break;
+                }
+                IsRoomEditVisible = false;
+            }
+            else {
+                System.Windows.MessageBox.Show("Invalid Capacity, type correct one!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
 
         public void DeleteRoom()
         {

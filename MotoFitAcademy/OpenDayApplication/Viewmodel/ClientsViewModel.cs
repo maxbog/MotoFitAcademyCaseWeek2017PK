@@ -82,6 +82,29 @@ namespace OpenDayApplication.Viewmodel
 
         static bool isValid;
 
+        static Regex ValidImieRegex = CreateValidImieRegex();
+
+
+        private static Regex CreateValidImieRegex()
+        {
+            string validImiePattern = "^[a-z]{2,30}[A-Z]{2,30}$";
+
+            return new Regex(validImiePattern, RegexOptions.IgnoreCase);
+        }
+
+        static bool isValid2;
+
+        static Regex ValidNazwiskoRegex = CreateValidNazwiskoRegex();
+
+
+        private static Regex CreateValidNazwiskoRegex()
+        {
+            string validNazwiskoPattern = "^[a-z]{2,30}[A-Z]{2,30}$";
+
+            return new Regex(validNazwiskoPattern, RegexOptions.IgnoreCase);
+        }
+
+        static bool isValid3;
 
         public void AddClient()
         {
@@ -110,6 +133,8 @@ namespace OpenDayApplication.Viewmodel
                 IsClientEditVisible = false;
                 if (EditedClient != null && EditedClient.ID != 0)
                 {
+                    if (MessageBox.Show("Are you sure to delete this user?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.No)
+                        return;
                     _clientsManager.DeleteClient(EditedClient);
                     RefreshClients();
                 }
@@ -124,7 +149,7 @@ namespace OpenDayApplication.Viewmodel
         public void SaveChanges()
         {
 
-            this.EmailIsValid(EditedClient.Address);
+            EmailIsValid(EditedClient.Address);
 
             if (isValid == false)
             {
@@ -146,18 +171,57 @@ namespace OpenDayApplication.Viewmodel
           }
         
                 }
+
+
                 catch (Exception)
                 {
                     MessageBox.Show("Cannot save changes.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
+                    ImieIsValid(EditedClient.Name);
                 }
+                if (isValid2 == false)
+                {
+                    System.Windows.MessageBox.Show("Invalid Imie, type correct one!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    try
+                    {
+                        _clientsManager.AddClient(EditedClient);
+                    }
 
-                IsClientEditVisible = false;
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Cannot save changes.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    NazwiskoIsValid(EditedClient.Surname);
+
+                    if (isValid3 == false)
+                    {
+                        System.Windows.MessageBox.Show("Invalid Nazwisko, type correct one!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            _clientsManager.AddClient(EditedClient);
+                        }
+
+                        catch (Exception)
+                        {
+                            MessageBox.Show("Cannot save changes.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
+                        IsClientEditVisible = false;
 
 
-                RefreshClients();
+                        RefreshClients();
+                    }
+
+                }
             }
-
         }
 
         public void Cancel()
@@ -183,6 +247,18 @@ namespace OpenDayApplication.Viewmodel
                       _clientsManager.GetClients().All(client => client.Address != emailAddress);
 
             return isValid;
+        }
+        internal static bool ImieIsValid(string imieAddress)
+        {
+            isValid2 = ValidImieRegex.IsMatch(imieAddress);
+
+            return isValid2;
+        }
+         internal static bool NazwiskoIsValid(string nazwiskoAddress)
+        {
+            isValid2 = ValidNazwiskoRegex.IsMatch(nazwiskoAddress);
+
+            return isValid3;
         }
     }
 }
