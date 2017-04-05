@@ -10,6 +10,7 @@ using System.Windows.Input;
 using OpenDayApplication.Model;
 using OpenDayApplication.Model.Managers;
 using System.Windows;
+using System;
 
 namespace OpenDayApplication.Viewmodel
 {
@@ -121,20 +122,33 @@ namespace OpenDayApplication.Viewmodel
             }
 
         }
+   
 
       private void SaveChanges()
         {
           try
           {
-              if (EditedWorker.PESEL.Length != 11)
-              {
 
+            bool PeselDigit = false;
+              if (EditedWorker.PESEL.Length != 11)
+            for ( int i = 0; i < EditedWorker.PESEL.Length; i++ )
+            {
+                if (! char.IsNumber(EditedWorker.PESEL, i)) 
+                {
+                    PeselDigit = true;
+                    break;
+                }
+            }
+
+            if (EditedWorker.PESEL.Length != 11 || PeselDigit )
+              {
+           
                   const string message = "Incorrect values in PESEL";
                   const string caption = "ERROR";
                   var result = MessageBox.Show(message, caption);
 
               }
-              else if (EditedWorker.Salary%1 != 0)
+            else if (EditedWorker.Salary % 1 != 0 || EditedWorker.Salary < 0   )
               {
                   const string message = "Incorrect values in Salary";
                   const string caption = "ERROR";

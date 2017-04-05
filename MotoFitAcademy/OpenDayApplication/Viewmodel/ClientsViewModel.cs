@@ -7,6 +7,7 @@ using OpenDayApplication.Model;
 using OpenDayApplication.Model.Managers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Text.RegularExpressions;
@@ -106,9 +107,6 @@ namespace OpenDayApplication.Viewmodel
         {
             IsClientEditVisible = true;
             EditedClient = new Client();
-
-
-
         }
 
         public void DeleteClient()
@@ -144,6 +142,8 @@ namespace OpenDayApplication.Viewmodel
             {
                 try
                 {
+                    if (_clientsManager.GetClients().Any(client => client.Address == EditedClient.Address))
+                        throw new InvalidOperationException("Client with specified e-mail address already exists!");
                     _clientsManager.AddClient(EditedClient);
                 }
 
