@@ -65,5 +65,7 @@
             <Button Grid.Row="3" Grid.Column="0" Content="Cancel" Command="{Binding CancelCommand}"/>
             <Button Grid.Row="3" Grid.Column="1" Content="Save" Command="{Binding SaveCommand}"/>
         </Grid>
+        <TextBlock x:Name="ilosc_pracownikow" HorizontalAlignment="Left" Margin="348,10,0,0" TextWrapping="Wrap" Text="Number of Workers:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="ilosc_prac_var" Grid.Column="1" HorizontalAlignment="Left" Margin="19,10,-16,0" TextWrapping="Wrap" Text="{Binding Workers.Count}" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>
