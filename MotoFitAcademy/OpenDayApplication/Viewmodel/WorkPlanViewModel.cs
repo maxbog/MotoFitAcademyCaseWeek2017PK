@@ -60,6 +60,33 @@ namespace OpenDayApplication.Viewmodel
         OnPropertyChanged("Days");
       }
     }
+    public List<Worker> Workers
+    {
+      get { return _workers; }
+      set
+      {
+        _workers = value;
+        OnPropertyChanged("Workers");
+      }
+    }
+    public List<Class> Classes
+    {
+      get { return _classes; }
+      set
+      {
+        _classes = value;
+        OnPropertyChanged("Classes");
+      }
+    }
+    public List<Room> Rooms
+    {
+      get { return _rooms; }
+      set
+      {
+        _rooms = value;
+        OnPropertyChanged("Rooms");
+      }
+    }
 
     public ICommand AddWorkPlanElementCommand { get; set; }
     public ICommand EditWorkPlanElementCommand { get; set; }
@@ -78,6 +105,10 @@ namespace OpenDayApplication.Viewmodel
     private readonly WorkersManager _workersManager;
     private CrudOperation _selectedOperation;
     private List<DayOfWeek> _days;
+    private List<Worker> _workers;
+    private List<Class> _classes;
+    private List<Room> _rooms;
+
 
     public WorkPlanViewModel()
     {
@@ -184,6 +215,9 @@ namespace OpenDayApplication.Viewmodel
     {
       PrepareTimeList();
       PrepareDayList();
+      Workers = new List<Worker>(_workersManager.GetWorkers());
+      Classes = new List<Class>(_classesManager.GetClasses());
+      Rooms = new List<Room>(_roomsManager.GetRooms());
     }
 
     private void RefreshWorkPlanElements()
