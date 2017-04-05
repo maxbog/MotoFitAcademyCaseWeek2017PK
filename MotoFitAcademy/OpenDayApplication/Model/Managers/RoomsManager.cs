@@ -45,5 +45,14 @@ namespace OpenDayApplication.Model.Managers
         dataContext.SubmitChanges();
       }
     }
+        public void DeleteRoom(Room room)
+        {
+            using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+            {
+                dataContext.Rooms.Attach(room);
+                dataContext.Rooms.DeleteOnSubmit(room);
+                dataContext.SubmitChanges();
+            }
+        }
   }
 }
