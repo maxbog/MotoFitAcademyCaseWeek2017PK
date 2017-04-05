@@ -71,6 +71,8 @@ namespace OpenDayApplication.Model.Managers
                     var workerToEdit = dataContext.Workers.FirstOrDefault(w => w.ID == worker.ID);
                     workerToEdit.Name = worker.Name;
                     workerToEdit.Surname = worker.Surname;
+                    workerToEdit.Salary = worker.Salary;
+                    workerToEdit.PESEL = worker.PESEL;
                     dataContext.SubmitChanges();
                 }
             }
