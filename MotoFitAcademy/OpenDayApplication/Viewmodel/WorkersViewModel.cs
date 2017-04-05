@@ -126,37 +126,38 @@ namespace OpenDayApplication.Viewmodel
 
       private void SaveChanges()
         {
-            bool isPeselDuplicated = false;
-            foreach(Worker w in Workers)
-            {
-                if(w.PESEL == EditedWorker.PESEL)
-                {
-                    isPeselDuplicated = true;
-                    break;
-                }
-            }
-            if (isPeselDuplicated)
-            {
-                const string message = "There is other worker with this PESEL";
-                const string caption = "ERROR";
-                var result = MessageBox.Show(message, caption);
-            }
+            
           try
           {
 
-            bool PeselDigit = false;
-              
-            for ( int i = 0; i < EditedWorker.PESEL.Length; i++ )
-            {
-                if (! char.IsNumber(EditedWorker.PESEL, i)) 
-                {
-                    PeselDigit = true;
-                    break;
-                }
-            }
+                bool PeselDigit = false;
+                bool isPeselDuplicated = false;
 
-            if (EditedWorker.PESEL.Length != 11 || PeselDigit )
-            else if (EditedWorker.PESEL.Length != 11)
+                foreach (Worker w in Workers)
+                {
+                    if (w.PESEL == EditedWorker.PESEL)
+                    {
+                        isPeselDuplicated = true;
+                        break;
+                    }
+                }      
+              
+                for ( int i = 0; i < EditedWorker.PESEL.Length; i++ )
+                {
+                if (! char.IsNumber(EditedWorker.PESEL, i)) 
+                    {
+                        PeselDigit = true;
+                        break;
+                    }
+                }
+
+                if (isPeselDuplicated)
+                {
+                    const string message = "There is other worker with this PESEL";
+                    const string caption = "ERROR";
+                    var result = MessageBox.Show(message, caption);
+                }
+              else if (EditedWorker.PESEL.Length != 11 || PeselDigit )
               {
            
                   const string message = "Incorrect values in PESEL";
