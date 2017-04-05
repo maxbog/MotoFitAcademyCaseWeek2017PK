@@ -124,7 +124,7 @@ namespace OpenDayApplication.Viewmodel
 
                 RefreshClients();
             }
-           }
+           
     }
 
     public void Cancel()
