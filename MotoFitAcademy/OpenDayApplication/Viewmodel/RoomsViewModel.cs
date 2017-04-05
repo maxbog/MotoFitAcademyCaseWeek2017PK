@@ -92,14 +92,7 @@ namespace OpenDayApplication.Viewmodel
       switch (_selectedOperation)
       {
         case CrudOperation.Create:
-          try
-          {
-                _roomsManager.AddRoom(EditedRoom);
-          }
-          catch
-          {
-                
-          }
+          _roomsManager.AddRoom(EditedRoom);
           break;
         case CrudOperation.Edit:
           _roomsManager.EditRoom(EditedRoom);
@@ -112,7 +105,7 @@ namespace OpenDayApplication.Viewmodel
         public void DeleteRoom()
         {
             if (MessageBox.Show("Are you sure?",
-                "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 IsRoomEditVisible = false;
                 if (EditedRoom != null && EditedRoom.ID != 0)

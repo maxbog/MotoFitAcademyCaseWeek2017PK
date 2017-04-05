@@ -91,7 +91,7 @@ namespace OpenDayApplication.Viewmodel
       IsClassEditVisible = false;
       if (EditedClass != null && EditedClass.ID != 0)
       {
-                MessageBoxResult messageBoxConfirm = MessageBox.Show("Are you sure to delete this class?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                MessageBoxResult messageBoxConfirm = MessageBox.Show("Are you sure to delete this class?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (messageBoxConfirm == MessageBoxResult.Yes)
                      _classesManager.DeleteClass(EditedClass);
         RefreshClients();
