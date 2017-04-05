@@ -92,14 +92,7 @@ namespace OpenDayApplication.Viewmodel
       switch (_selectedOperation)
       {
         case CrudOperation.Create:
-          try
-          {
-                _roomsManager.AddRoom(EditedRoom);
-          }
-          catch
-          {
-                
-          }
+          _roomsManager.AddRoom(EditedRoom);
           break;
         case CrudOperation.Edit:
           _roomsManager.EditRoom(EditedRoom);

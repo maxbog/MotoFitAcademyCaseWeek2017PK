@@ -4,11 +4,13 @@
 //Motorola Solutions Confidential Restricted
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using OpenDayApplication.Model;
 using OpenDayApplication.Model.Managers;
 using System.Windows;
+using System;
 
 namespace OpenDayApplication.Viewmodel
 {
@@ -67,40 +69,60 @@ namespace OpenDayApplication.Viewmodel
 
         public void AddWorker()
         {            
-            IsWorkerEditVisible = true;
-            _selectedOperation = CrudOperation.Create;
-             EditedWorker = new Worker();
+            try
+            {
+                IsWorkerEditVisible = true;
+                _selectedOperation = CrudOperation.Create;
+                EditedWorker = new Worker();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void EditWorker()
         {
-            if (EditedWorker != null && EditedWorker.ID != 0)
+            try
             {
-                IsWorkerEditVisible = true;
-                _selectedOperation = CrudOperation.Edit;
+                if (EditedWorker != null && EditedWorker.ID != 0)
+                {
+                    IsWorkerEditVisible = true;
+                    _selectedOperation = CrudOperation.Edit;
+                }
+                else
+                {
+                    IsWorkerEditVisible = false;
+                }
             }
-            else
+            catch (Exception e)
             {
-                IsWorkerEditVisible = false;
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         public void DeleteWorker()
         {
-      
-
-            if (MessageBox.Show("Are you sure?",
-                "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            try
             {
-                IsWorkerEditVisible = false;
-                if (EditedWorker != null && EditedWorker.ID != 0)
+                if (MessageBox.Show("Are you sure?",
+                    "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    _workersManager.DeleteWorker(EditedWorker);
-                    RefreshWorkers();
+                    IsWorkerEditVisible = false;
+                    if (EditedWorker != null && EditedWorker.ID != 0)
+                    {
+                        _workersManager.DeleteWorker(EditedWorker);
+                        RefreshWorkers();
+                    }
                 }
             }
-            
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
+   
 
       private void SaveChanges()
         {
@@ -119,35 +141,55 @@ namespace OpenDayApplication.Viewmodel
                 const string caption = "ERROR";
                 var result = MessageBox.Show(message, caption);
             }
-            else if (EditedWorker.PESEL.Length != 11)
-            {
+          try
+          {
 
-                const string message = "Incorrect values in PESEL";
-                const string caption = "ERROR";
-                var result = MessageBox.Show(message, caption);
-
-            }
-            else if (EditedWorker.Salary % 1 != 0   )
+            bool PeselDigit = false;
+              
+            for ( int i = 0; i < EditedWorker.PESEL.Length; i++ )
             {
-                const string message = "Incorrect values in Salary";
-                const string caption = "ERROR";
-                var result = MessageBox.Show(message, caption);
-
-            }
-            else
-            {
-                switch (_selectedOperation)
+                if (! char.IsNumber(EditedWorker.PESEL, i)) 
                 {
-                    case CrudOperation.Create:
-                        _workersManager.AddWorker(EditedWorker);
-                        break;
-                    case CrudOperation.Edit:
-                        _workersManager.EditWorker(EditedWorker);
-                        break;
+                    PeselDigit = true;
+                    break;
                 }
             }
-            IsWorkerEditVisible = false;
-            RefreshWorkers();
+
+            if (EditedWorker.PESEL.Length != 11 || PeselDigit )
+            else if (EditedWorker.PESEL.Length != 11)
+              {
+           
+                  const string message = "Incorrect values in PESEL";
+                  const string caption = "ERROR";
+                  var result = MessageBox.Show(message, caption);
+
+              }
+            else if (EditedWorker.Salary % 1 != 0 || EditedWorker.Salary < 0   )
+              {
+                  const string message = "Incorrect values in Salary";
+                  const string caption = "ERROR";
+                  var result = MessageBox.Show(message, caption);
+
+              }
+              else
+              {
+                  switch (_selectedOperation)
+                  {
+                      case CrudOperation.Create:
+                          _workersManager.AddWorker(EditedWorker);
+                          break;
+                      case CrudOperation.Edit:
+                          _workersManager.EditWorker(EditedWorker);
+                          break;
+                  }
+              }
+              IsWorkerEditVisible = false;
+              RefreshWorkers();
+          }
+           catch (Exception e)
+           {
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+           }
         }
 
         public void Cancel()

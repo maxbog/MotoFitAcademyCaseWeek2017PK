@@ -54,7 +54,7 @@ namespace OpenDayApplication.Model.Managers
 
               _class.ID = reader.GetInt32(reader.GetOrdinal("ClassId"));
               _class.Name = reader.GetString(reader.GetOrdinal("ClassName"));
-              _class.Popularity = reader.GetString(reader.GetOrdinal("AddInfo"));
+              _class.Difficulty_Level = reader.GetString(reader.GetOrdinal("AddInfo"));
               workPlanElement.Class = _class;
 
               workPlanElement.ID = reader.GetInt32(reader.GetOrdinal("WorkPlanId"));

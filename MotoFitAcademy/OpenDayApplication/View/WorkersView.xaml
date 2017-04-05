@@ -51,6 +51,7 @@
                 <DataGridTextColumn Header="SURNAME" Binding="{Binding Surname}" Width="145"/>
                 <DataGridTextColumn Header="SALARY" Binding="{Binding Salary}" Width="145"/>
                 <DataGridTextColumn Header="PESEL" Binding="{Binding PESEL}" Width="145"/>
+                <DataGridTextColumn Header="Is Apprentice?" Binding="{Binding isApprentice}" Width="145"/>
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" Grid.Column="1" Margin="7,5,0,5" Visibility="{Binding IsWorkerEditVisible, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -85,7 +86,6 @@
             <Button Grid.Row="6" Grid.Column="0" Content="Cancel" Command="{Binding CancelCommand}"/>
             <Button Grid.Row="6" Grid.Column="1" Content="Save" Command="{Binding SaveCommand}"/>
         </Grid>
-        <TextBlock x:Name="ilosc_pracownikow" HorizontalAlignment="Left" Margin="348,10,0,0" TextWrapping="Wrap" Text="Number of Workers:" VerticalAlignment="Top"/>
-        <TextBlock x:Name="ilosc_prac_var" HorizontalAlignment="Left" Margin="470,10,0,0" TextWrapping="Wrap" Text="{Binding Workers.Count}" VerticalAlignment="Top"/>
+   
     </Grid>
 </UserControl>
