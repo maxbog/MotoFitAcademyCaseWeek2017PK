@@ -5,7 +5,9 @@
 #endregion
 using OpenDayApplication.Model;
 using OpenDayApplication.Model.Managers;
+using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 
 namespace OpenDayApplication.Viewmodel
@@ -78,7 +80,15 @@ namespace OpenDayApplication.Viewmodel
 
     public void SaveChanges()
     {
-      _clientsManager.AddClient(EditedClient);
+      try
+      {
+        _clientsManager.AddClient(EditedClient);
+      }
+      catch (Exception)
+      {
+        MessageBox.Show("Cannot save changes.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        return;    
+      }        
       IsClientEditVisible = false;
       RefreshClients();
     }
