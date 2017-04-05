@@ -12,58 +12,72 @@ using OpenDayApplication.Model.Database;
 
 namespace OpenDayApplication.Model.Managers
 {
-  public class WorkersManager
-  {
-    public List<Worker> GetWorkers()
+    public class WorkersManager
     {
-        var _workers = new List<Worker>();
-        try
+        public List<Worker> GetWorkers()
         {
-        
-            using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+            var _workers = new List<Worker>();
+            try
             {
-                _workers = dataContext.Workers.ToList();
+
+                using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+                {
+                    _workers = dataContext.Workers.ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return _workers;
+        }
+        public void AddWorker(Worker worker)
+        {
+            try
+            {
+                using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+                {
+                    dataContext.Workers.InsertOnSubmit(worker);
+                    dataContext.SubmitChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        catch (Exception e)
+        public void DeleteWorker(Worker worker)
         {
-            MessageBox.Show(e.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-        return _workers;
-    }
-    public void AddWorker(Worker worker)
-    {
-      using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
-      {
-        dataContext.Workers.InsertOnSubmit(worker);
-        dataContext.SubmitChanges();
-      }
-    }
-    public void DeleteWorker(Worker worker)
-    {
-        try
-        {
-            using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+            try
             {
-                dataContext.Workers.Attach(worker);
-                dataContext.Workers.DeleteOnSubmit(worker);
-                dataContext.SubmitChanges();
+                using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+                {
+                    dataContext.Workers.Attach(worker);
+                    dataContext.Workers.DeleteOnSubmit(worker);
+                    dataContext.SubmitChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        catch (Exception e)
+        public void EditWorker(Worker worker)
         {
-            MessageBox.Show(e.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            try
+            {
+                using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+                {
+                    var workerToEdit = dataContext.Workers.FirstOrDefault(w => w.ID == worker.ID);
+                    workerToEdit.Name = worker.Name;
+                    workerToEdit.Surname = worker.Surname;
+                    dataContext.SubmitChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
-    public void EditWorker(Worker worker)
-    {
-      using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
-      {
-        var workerToEdit = dataContext.Workers.FirstOrDefault(w => w.ID == worker.ID);
-        workerToEdit.Name = worker.Name;
-        workerToEdit.Surname = worker.Surname;
-        dataContext.SubmitChanges();
-      }
-    }
-  }
 }
