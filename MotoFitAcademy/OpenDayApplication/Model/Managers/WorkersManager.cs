@@ -19,7 +19,7 @@ namespace OpenDayApplication.Model.Managers
         var _workers = new List<Worker>();
         try
         {
-            //throw new Exception("test");
+        
             using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
             {
                 _workers = dataContext.Workers.ToList();
@@ -43,7 +43,6 @@ namespace OpenDayApplication.Model.Managers
     {
         try
         {
-            //throw new Exception("Test");
             using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
             {
                 dataContext.Workers.Attach(worker);
