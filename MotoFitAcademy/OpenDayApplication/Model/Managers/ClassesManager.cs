@@ -21,10 +21,19 @@ namespace OpenDayApplication.Model.Managers
         public List<Class> GetClasses()
         {
             var _classes = new List<Class>();
-            using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
-            {
-                _classes = dataContext.Classes.ToList();
+
+            try {
+                using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+                {
+                    _classes = dataContext.Classes.ToList();
+                }
+
             }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
             return _classes;
         }
         public void AddClass(Class _class)
@@ -74,13 +83,21 @@ namespace OpenDayApplication.Model.Managers
         }
         public void EditClass(Class _class)
         {
-            using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+            try
             {
-                var classToEdit = dataContext.Classes.FirstOrDefault(c => c.ID == _class.ID);
-                classToEdit.Name = _class.Name;
-                classToEdit.Popularity = _class.Popularity;
-                dataContext.SubmitChanges();
+                using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+                {
+                    var classToEdit = dataContext.Classes.FirstOrDefault(c => c.ID == _class.ID);
+                    classToEdit.Name = _class.Name;
+                    classToEdit.Popularity = _class.Popularity;
+                    dataContext.SubmitChanges();
+                }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
     }
 }
