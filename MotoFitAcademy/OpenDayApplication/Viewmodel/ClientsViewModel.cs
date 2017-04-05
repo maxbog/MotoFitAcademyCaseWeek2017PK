@@ -107,7 +107,7 @@ namespace OpenDayApplication.Viewmodel
         public void SaveChanges()
         {
 
-            this.EmailIsValid(EditedClient.Address);
+            EmailIsValid(EditedClient.Address);
 
             if (isValid == false)
             {
