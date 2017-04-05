@@ -106,14 +106,32 @@ namespace OpenDayApplication.Viewmodel
 
       private void SaveChanges()
         {
-            switch (_selectedOperation)
+            if (EditedWorker.PESEL.Length != 11)
             {
-                case CrudOperation.Create:
-                    _workersManager.AddWorker(EditedWorker);
-                    break;
-                case CrudOperation.Edit:
-                    _workersManager.EditWorker(EditedWorker);
-                    break;
+
+                const string message = "Incorrect values in PESEL";
+                const string caption = "ERROR";
+                var result = MessageBox.Show(message, caption);
+
+            }
+            else if (EditedWorker.Salary % 1 != 0   )
+            {
+                const string message = "Incorrect values in Salary";
+                const string caption = "ERROR";
+                var result = MessageBox.Show(message, caption);
+
+            }
+            else
+            {
+                switch (_selectedOperation)
+                {
+                    case CrudOperation.Create:
+                        _workersManager.AddWorker(EditedWorker);
+                        break;
+                    case CrudOperation.Edit:
+                        _workersManager.EditWorker(EditedWorker);
+                        break;
+                }
             }
             IsWorkerEditVisible = false;
             RefreshWorkers();
@@ -122,6 +140,7 @@ namespace OpenDayApplication.Viewmodel
         public void Cancel()
         {
             IsWorkerEditVisible = false;
+            RefreshWorkers();
         }
 
         private void RefreshWorkers()

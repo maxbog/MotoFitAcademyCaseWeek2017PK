@@ -3,6 +3,7 @@
 //All Rights Reserved.
 //Motorola Solutions Confidential Restricted
 #endregion
+using System.Collections.Generic;
 using OpenDayApplication.Model;
 using OpenDayApplication.Model.Managers;
 using System.Windows.Input;
@@ -16,12 +17,14 @@ namespace OpenDayApplication.Viewmodel
   {
     private readonly RoomsManager _roomsManager;
     private bool _isRoomEditVisible;
+    private List<Room> _rooms;
     private Room _editedRoom;
     private CrudOperation _selectedOperation;
 
     public ICommand AddRoomCommand { get; set; }
     public ICommand SaveCommand { get; set; }
     public ICommand EditRoomCommand { get; set; }
+    public ICommand DeleteRoomCommand { get; set; }
     public ICommand CancelCommand { get; set; }
 
     public Room EditedRoom
@@ -33,7 +36,19 @@ namespace OpenDayApplication.Viewmodel
         OnPropertyChanged("EditedRoom");
       }
     }
-    public bool IsRoomEditVisible
+
+        public List<Room> Rooms
+        {
+            get { return _rooms; }
+            set
+            {
+                _rooms = value;
+                OnPropertyChanged("Rooms");
+            }
+        }
+
+
+        public bool IsRoomEditVisible
     {
       get { return _isRoomEditVisible; }
       set
@@ -53,7 +68,6 @@ namespace OpenDayApplication.Viewmodel
         {
             string validCapPattern = @"^[1-9][0-9]?$|^100$";
                 
-
             return new Regex(validCapPattern, RegexOptions.IgnoreCase);
         }
 
@@ -66,9 +80,6 @@ namespace OpenDayApplication.Viewmodel
             return isValid;
         }
 
-
-
-
         public RoomsViewModel()
     {
       _roomsManager = GetRoomsManager();
@@ -76,7 +87,9 @@ namespace OpenDayApplication.Viewmodel
       EditRoomCommand = new BaseCommand(EditRoom);
       SaveCommand = new BaseCommand(SaveChanges);
       CancelCommand = new BaseCommand(Cancel);
-    }
+      DeleteRoomCommand = new BaseCommand(DeleteRoom);
+            RefreshRooms();
+        }
 
     public void AddRoom()
     {
@@ -98,38 +111,53 @@ namespace OpenDayApplication.Viewmodel
       }
     }
 
-    public void SaveChanges()
-    {
-      switch (_selectedOperation)
-      {
-        case CrudOperation.Create:
+    public void SaveChanges() { 
+    
+            CapIsValid(System.Convert.ToString(EditedRoom.Capacity));
+            if (isValid)
+            {
+                switch (_selectedOperation)
+                {
+                    case CrudOperation.Create:
 
-                    CapIsValid(System.Convert.ToString(EditedRoom.Capacity));
+                        _roomsManager.AddRoom(EditedRoom);
+                        break;
+                    case CrudOperation.Edit:
 
-                    if (isValid == false)
-                    {
-                        System.Windows.MessageBox.Show("Invalid Capacity, type correct one!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    else   _roomsManager.AddRoom(EditedRoom);
-                    break;
 
-        case CrudOperation.Edit:
+                        _roomsManager.EditRoom(EditedRoom);
+                        break;
+                }
+                IsRoomEditVisible = false;
+            }
+            else {
+                System.Windows.MessageBox.Show("Invalid Capacity, type correct one!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
-                    CapIsValid(System.Convert.ToString(EditedRoom.Capacity));
+        }
 
-                    if (isValid == false)
-                    {
-                        System.Windows.MessageBox.Show("Invalid Capacity, type correct one!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    else _roomsManager.EditRoom(EditedRoom);
-                    break;
-      }
-      IsRoomEditVisible = false;
-    }
+        public void DeleteRoom()
+        {
+            if (MessageBox.Show("Are you sure?",
+                "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                IsRoomEditVisible = false;
+                if (EditedRoom != null && EditedRoom.ID != 0)
+                {
+                    _roomsManager.DeleteRoom(EditedRoom);
+                    RefreshRooms();
+                }
+            }
+        }
 
     public void Cancel()
     {
       IsRoomEditVisible = false;
     }
-  }
+
+        private void RefreshRooms()
+        {
+            Rooms = new List<Room>(_roomsManager.GetRooms());
+        }
+    }
 }
