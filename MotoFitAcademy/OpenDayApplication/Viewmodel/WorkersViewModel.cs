@@ -122,6 +122,7 @@ namespace OpenDayApplication.Viewmodel
         public void Cancel()
         {
             IsWorkerEditVisible = false;
+            RefreshWorkers();
         }
 
         private void RefreshWorkers()
