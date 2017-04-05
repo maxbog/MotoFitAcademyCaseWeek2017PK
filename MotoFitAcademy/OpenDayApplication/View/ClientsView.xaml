@@ -48,6 +48,7 @@
                 <DataGridTextColumn Header="NAME" Binding="{Binding Name}" Width="145"/>
                 <DataGridTextColumn Header="SURNAME" Binding="{Binding Surname}" Width="145"/>
                 <DataGridTextColumn Header="ADDRESS" Binding="{Binding Address}" Width="150"/>
+               
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" Grid.Column="1" Margin="7,5,0,5" Visibility="{Binding IsClientEditVisible, Converter={StaticResource BoolToVisibilityConverter}}">

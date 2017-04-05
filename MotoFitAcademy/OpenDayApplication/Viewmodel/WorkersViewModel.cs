@@ -46,7 +46,10 @@ namespace OpenDayApplication.Viewmodel
                 OnPropertyChanged("Workers");
             }
         }
-        public bool IsWorkerEditVisible
+        
+
+
+    public bool IsWorkerEditVisible
         {
             get { return _isWorkerEditVisible; }
             set
@@ -130,7 +133,7 @@ namespace OpenDayApplication.Viewmodel
           {
 
             bool PeselDigit = false;
-              if (EditedWorker.PESEL.Length != 11)
+              
             for ( int i = 0; i < EditedWorker.PESEL.Length; i++ )
             {
                 if (! char.IsNumber(EditedWorker.PESEL, i)) 
