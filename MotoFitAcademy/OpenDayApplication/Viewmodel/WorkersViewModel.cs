@@ -67,9 +67,11 @@ namespace OpenDayApplication.Viewmodel
 
         public void AddWorker()
         {
+            
             IsWorkerEditVisible = true;
             _selectedOperation = CrudOperation.Create;
-            EditedWorker = new Worker();
+             EditedWorker = new Worker();
+  
         }
 
         public void EditWorker()
