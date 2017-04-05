@@ -66,12 +66,10 @@ namespace OpenDayApplication.Viewmodel
         }
 
         public void AddWorker()
-        {
-            
+        {            
             IsWorkerEditVisible = true;
             _selectedOperation = CrudOperation.Create;
              EditedWorker = new Worker();
-  
         }
 
         public void EditWorker()
@@ -106,7 +104,22 @@ namespace OpenDayApplication.Viewmodel
 
       private void SaveChanges()
         {
-            if (EditedWorker.PESEL.Length != 11)
+            bool isPeselDuplicated = false;
+            foreach(Worker w in Workers)
+            {
+                if(w.PESEL == EditedWorker.PESEL)
+                {
+                    isPeselDuplicated = true;
+                    break;
+                }
+            }
+            if (isPeselDuplicated)
+            {
+                const string message = "There is other worker with this PESEL";
+                const string caption = "ERROR";
+                var result = MessageBox.Show(message, caption);
+            }
+            else if (EditedWorker.PESEL.Length != 11)
             {
 
                 const string message = "Incorrect values in PESEL";
