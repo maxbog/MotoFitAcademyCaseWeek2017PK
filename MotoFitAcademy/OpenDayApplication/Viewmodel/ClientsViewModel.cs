@@ -132,7 +132,7 @@ namespace OpenDayApplication.Viewmodel
         public void SaveChanges()
         {
 
-            EmailIsValid(EditedClient.Address);
+            this.EmailIsValid(EditedClient.Address);
 
             if (isValid == false)
             {
@@ -142,17 +142,13 @@ namespace OpenDayApplication.Viewmodel
             {
                 try
                 {
-                    if (_clientsManager.GetClients().Any(client => client.Address == EditedClient.Address))
-                        throw new InvalidOperationException("Client with specified e-mail address already exists!");
                     _clientsManager.AddClient(EditedClient);
                 }
 
 
                 catch (Exception)
-                {
                     MessageBox.Show("Cannot save changes.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
-                }
                 ImieIsValid(EditedClient.Name);
 
                 if (isValid2 == false)
@@ -217,9 +213,10 @@ namespace OpenDayApplication.Viewmodel
             }
         }
 
-        internal static bool EmailIsValid(string emailAddress)
+        internal bool EmailIsValid(string emailAddress)
         {
-            isValid = ValidEmailRegex.IsMatch(emailAddress);
+            isValid = ValidEmailRegex.IsMatch(emailAddress) &&
+                      _clientsManager.GetClients().All(client => client.Address != emailAddress);
 
             return isValid;
         }
