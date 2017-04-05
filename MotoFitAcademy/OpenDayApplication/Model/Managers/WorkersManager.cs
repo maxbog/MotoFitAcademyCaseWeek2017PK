@@ -4,8 +4,10 @@
 //Motorola Solutions Confidential Restricted
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using OpenDayApplication.Model.Database;
 
 namespace OpenDayApplication.Model.Managers
@@ -14,12 +16,20 @@ namespace OpenDayApplication.Model.Managers
   {
     public List<Worker> GetWorkers()
     {
-      var _workers = new List<Worker>();
-      using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
-      {
-        _workers = dataContext.Workers.ToList();
-      }
-      return _workers;
+        var _workers = new List<Worker>();
+        try
+        {
+            //throw new Exception("test");
+            using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+            {
+                _workers = dataContext.Workers.ToList();
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        return _workers;
     }
     public void AddWorker(Worker worker)
     {
@@ -31,12 +41,20 @@ namespace OpenDayApplication.Model.Managers
     }
     public void DeleteWorker(Worker worker)
     {
-      using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
-      {
-        dataContext.Workers.Attach(worker);
-        dataContext.Workers.DeleteOnSubmit(worker);
-        dataContext.SubmitChanges();
-      }
+        try
+        {
+            //throw new Exception("Test");
+            using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+            {
+                dataContext.Workers.Attach(worker);
+                dataContext.Workers.DeleteOnSubmit(worker);
+                dataContext.SubmitChanges();
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
     public void EditWorker(Worker worker)
     {
