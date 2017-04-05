@@ -95,6 +95,9 @@ namespace OpenDayApplication.Viewmodel
                 IsClientEditVisible = false;
                 if (EditedClient != null && EditedClient.ID != 0)
                 {
+        		if (MessageBox.Show("Are you sure to delete this user?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.No)
+          			return;
+
                     _clientsManager.DeleteClient(EditedClient);
                     RefreshClients();
                 }
@@ -113,7 +116,7 @@ namespace OpenDayApplication.Viewmodel
 
             if (isValid == false)
             {
-                System.Windows.MessageBox.Show("Invalid E-mail, type correct one!!!!");
+                System.Windows.MessageBox.Show("Invalid E-mail, type correct one!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
