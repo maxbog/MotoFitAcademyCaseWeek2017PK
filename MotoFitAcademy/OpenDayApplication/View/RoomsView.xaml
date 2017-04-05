@@ -58,8 +58,7 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding EditedRoom.Surname}"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding EditedEditedRoomRoom.Salary}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding EditedRoom.Capacity}"/>
             <Button Grid.Row="3" Grid.Column="0" Content="Cancel" Command="{Binding CancelCommand}"/>
             <Button Grid.Row="3" Grid.Column="1" Content="Save" Command="{Binding SaveCommand}"/>
         </Grid>
