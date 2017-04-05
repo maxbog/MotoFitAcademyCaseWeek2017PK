@@ -7,6 +7,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenDayApplication.Model.Database;
+using System.Windows;
+using System;
 
 namespace OpenDayApplication.Model.Managers
 {
@@ -30,6 +32,26 @@ namespace OpenDayApplication.Model.Managers
         dataContext.SubmitChanges();
       }
     }
+
+    public void EditClient(Client client)
+    {
+        try
+        {
+            using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+            {
+                var clientToEdit = dataContext.Clients.FirstOrDefault(c => c.ID == client.ID);
+                clientToEdit.Name = client.Name;
+                clientToEdit.Surname = client.Surname;
+                clientToEdit.Address = client.Address;
+                dataContext.SubmitChanges();
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
     public void DeleteClient(Client client)
     {
       using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))

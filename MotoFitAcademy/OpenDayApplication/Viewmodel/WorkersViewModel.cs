@@ -46,7 +46,10 @@ namespace OpenDayApplication.Viewmodel
                 OnPropertyChanged("Workers");
             }
         }
-        public bool IsWorkerEditVisible
+        
+
+
+    public bool IsWorkerEditVisible
         {
             get { return _isWorkerEditVisible; }
             set
