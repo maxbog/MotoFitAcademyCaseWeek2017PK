@@ -24,5 +24,7 @@ namespace OpenDayApplication.View
         {
             InitializeComponent();
         }
+
+      
     }
 }

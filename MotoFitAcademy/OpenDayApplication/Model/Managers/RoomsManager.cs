@@ -7,6 +7,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenDayApplication.Model.Database;
+using System;
+using System.Windows;
 
 namespace OpenDayApplication.Model.Managers
 {
@@ -17,10 +19,15 @@ namespace OpenDayApplication.Model.Managers
       var _rooms = new List<Room>();
       using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
       {
-        _rooms = dataContext.Rooms.ToList();
-      }
-      return _rooms;
+           try { _rooms = dataContext.Rooms.ToList(); }
+           catch (System.Exception e)
+           {
+               System.Windows.MessageBox.Show("Room name can't be get");
+           }
+     }
+     return _rooms;
     }
+
     public void AddRoom(Room room)
     {
       using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
@@ -37,13 +44,49 @@ namespace OpenDayApplication.Model.Managers
     }
     public void EditRoom(Room room)
     {
-      using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
-      {
-        var roomToEdit = dataContext.Rooms.FirstOrDefault(r => r.ID == room.ID);
-        roomToEdit.Name = room.Name;
-        roomToEdit.Capacity = room.Capacity;
-        dataContext.SubmitChanges();
-      }
-    }
+            try
+            {
+                using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+                  {
+                    var roomToEdit = dataContext.Rooms.FirstOrDefault(r => r.ID == room.ID);
+                    roomToEdit.Name = room.Name;
+                    roomToEdit.Capacity = room.Capacity;
+                    dataContext.SubmitChanges();
+                  }
+            }
+            catch (Exception e)
+            {
+
+                const string message = "Nie udało się. Spróbuj ponownie!";
+                const string caption = "Błąd";
+                var result = MessageBox.Show(message, caption);
+
+                // If the no button was pressed ...
+
+            }
+        }
+        public void DeleteRoom(Room room)
+        {
+            try
+            {
+                using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
+                {
+                    dataContext.Rooms.Attach(room);
+                    dataContext.Rooms.DeleteOnSubmit(room);
+                    dataContext.SubmitChanges();
+                }
+            }
+            catch (Exception e)
+            {
+
+                const string message = "Nie udało się. Spróbuj ponownie!";
+                const string caption = "Błąd";
+                var result = MessageBox.Show(message, caption);
+
+                // If the no button was pressed ...
+
+            }
+           
+        }
   }
 }

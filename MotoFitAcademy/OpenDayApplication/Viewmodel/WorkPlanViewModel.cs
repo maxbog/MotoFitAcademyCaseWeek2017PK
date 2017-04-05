@@ -119,8 +119,8 @@ namespace OpenDayApplication.Viewmodel
       if (TimeList == null)
       {
         TimeList = new List<TimeSpan>();
-        var endTime = new TimeSpan(23, 0, 0);
-        var time = new TimeSpan(6, 0, 0);
+        var endTime = new TimeSpan(17, 0, 0);
+        var time = new TimeSpan(9, 0, 0);
         while (time <= endTime)
         {
           TimeList.Add(time);
@@ -162,15 +162,24 @@ namespace OpenDayApplication.Viewmodel
 
     public void SaveChanges()
     {
-      switch (_selectedOperation)
-      {
-        case CrudOperation.Create:
-          _workPlanManager.AddWorkPlanElement(EditedWorkPlanElement);
-          break;
-        case CrudOperation.Edit:
-          _workPlanManager.EditWorkPlanElement(EditedWorkPlanElement);
-          break;
-      }
+        try
+        {
+            switch (_selectedOperation)
+            {
+                case CrudOperation.Create:
+                    _workPlanManager.AddWorkPlanElement(EditedWorkPlanElement);
+                    break;
+                case CrudOperation.Edit:
+                    _workPlanManager.EditWorkPlanElement(EditedWorkPlanElement);
+                    break;
+            }
+        }
+        catch (Exception)
+        {
+            System.Windows.MessageBox.Show("Cannot save changes", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            return;
+        }
+
       RefreshWorkPlanElements();
       IsWorkPlanElementEditVisible = false;
     }

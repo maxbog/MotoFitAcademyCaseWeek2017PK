@@ -120,7 +120,6 @@ namespace OpenDayApplication.Viewmodel
                 {
                     if (MessageBox.Show("Are you sure to delete this user?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.No)
                         return;
-
                     _clientsManager.DeleteClient(EditedClient);
                     RefreshClients();
                 }

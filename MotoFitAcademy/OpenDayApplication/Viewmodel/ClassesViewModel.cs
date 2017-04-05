@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using OpenDayApplication.Model;
 using OpenDayApplication.Model.Managers;
+using System.Windows;
 
 namespace OpenDayApplication.Viewmodel
 {
@@ -90,7 +91,9 @@ namespace OpenDayApplication.Viewmodel
       IsClassEditVisible = false;
       if (EditedClass != null && EditedClass.ID != 0)
       {
-        _classesManager.DeleteClass(EditedClass);
+                MessageBoxResult messageBoxConfirm = MessageBox.Show("Are you sure to delete this class?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (messageBoxConfirm == MessageBoxResult.Yes)
+                     _classesManager.DeleteClass(EditedClass);
         RefreshClients();
       }
     }
