@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using OpenDayApplication.Model;
 using OpenDayApplication.Model.Managers;
+using System.Windows;
 
 namespace OpenDayApplication.Viewmodel
 {
@@ -88,12 +89,19 @@ namespace OpenDayApplication.Viewmodel
 
         public void DeleteWorker()
         {
-            IsWorkerEditVisible = false;
-            if (EditedWorker != null && EditedWorker.ID != 0)
+      
+
+            if (MessageBox.Show("Are you sure?",
+                "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                _workersManager.DeleteWorker(EditedWorker);
-                RefreshWorkers();
+                IsWorkerEditVisible = false;
+                if (EditedWorker != null && EditedWorker.ID != 0)
+                {
+                    _workersManager.DeleteWorker(EditedWorker);
+                    RefreshWorkers();
+                }
             }
+            
         }
 
       private void SaveChanges()
