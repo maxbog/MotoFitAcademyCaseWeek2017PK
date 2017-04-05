@@ -112,7 +112,7 @@ namespace OpenDayApplication.Viewmodel
         public void DeleteRoom()
         {
             if (MessageBox.Show("Are you sure?",
-                "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 IsRoomEditVisible = false;
                 if (EditedRoom != null && EditedRoom.ID != 0)
