@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using System.Text.RegularExpressions;
+
 
 namespace OpenDayApplication.Viewmodel
 {
@@ -62,11 +64,29 @@ namespace OpenDayApplication.Viewmodel
       RefreshClients();
     }
 
+        static Regex ValidEmailRegex = CreateValidEmailRegex();
+
+
+        private static Regex CreateValidEmailRegex()
+        {
+            string validEmailPattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
+                + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)"
+                + @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+
+            return new Regex(validEmailPattern, RegexOptions.IgnoreCase);
+        }
+
+        static bool isValid;
+        
+
     public void AddClient()
     {
       IsClientEditVisible = true;
       EditedClient = new Client();
-    }
+
+
+
+        }
 
     public void DeleteClient()
     {
@@ -79,18 +99,32 @@ namespace OpenDayApplication.Viewmodel
     }
 
     public void SaveChanges()
-    {
+    {   
+    
+    	EmailIsValid(EditedClient.Address);
+
+            if (isValid == false)
+            {
+                System.Windows.MessageBox.Show("Invalid E-mail, type correct one!!!!");
+            }
+            else
+            {
       try
       {
         _clientsManager.AddClient(EditedClient);
-      }
+        }
       catch (Exception)
       {
         MessageBox.Show("Cannot save changes.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         return;    
-      }        
-      IsClientEditVisible = false;
-      RefreshClients();
+      }  
+
+                IsClientEditVisible = false;
+
+
+                RefreshClients();
+            }
+           }
     }
 
     public void Cancel()
@@ -102,5 +136,12 @@ namespace OpenDayApplication.Viewmodel
     {
       Clients = new List<Client>(_clientsManager.GetClients());
     }
-  }
+
+        internal static bool EmailIsValid(string emailAddress)
+        {
+            isValid = ValidEmailRegex.IsMatch(emailAddress);
+
+            return isValid;
+        }
+    }
 }
