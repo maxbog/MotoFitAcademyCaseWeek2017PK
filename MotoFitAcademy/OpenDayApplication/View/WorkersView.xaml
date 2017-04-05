@@ -35,6 +35,7 @@
                 <DataGridTextColumn Header="NAME" Binding="{Binding Name}" Width="145"/>
                 <DataGridTextColumn Header="SURNAME" Binding="{Binding Surname}" Width="145"/>
                 <DataGridTextColumn Header="SALARY" Binding="{Binding Salary}" Width="145"/>
+                <DataGridTextColumn Header="PESEL" Binding="{Binding PESEL}" Width="145"/>
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" Grid.Column="1" Margin="7,5,0,5" Visibility="{Binding IsWorkerEditVisible, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -43,14 +44,17 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Name"/>
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Surname"/>
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Salary"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="PESEL"/>
             <TextBox Grid.Row="0" Grid.Column="1">
                 <TextBox.Text>
                     <Binding Path="EditedWorker.Name" UpdateSourceTrigger="PropertyChanged">
@@ -62,8 +66,9 @@
             </TextBox>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding EditedWorker.Surname}"/>
             <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding EditedWorker.Salary}"/>
-            <Button Grid.Row="3" Grid.Column="0" Content="Cancel" Command="{Binding CancelCommand}"/>
-            <Button Grid.Row="3" Grid.Column="1" Content="Save" Command="{Binding SaveCommand}"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding EditedWorker.PESEL}"/>
+            <Button Grid.Row="6" Grid.Column="0" Content="Cancel" Command="{Binding CancelCommand}"/>
+            <Button Grid.Row="6" Grid.Column="1" Content="Save" Command="{Binding SaveCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -19,5 +19,7 @@ namespace OpenDayApplication.Model
 
     [Column]
     public double? Salary { get; set; }
+    [Column]
+    public string PESEL { get; set; }
   }
 }
