@@ -68,14 +68,22 @@ namespace OpenDayApplication.Viewmodel
     }
 
     public void DeleteClient()
-    {
-      IsClientEditVisible = false;
-      if (EditedClient != null && EditedClient.ID != 0)
-      {
-        _clientsManager.DeleteClient(EditedClient);
-        RefreshClients();
-      }
-    }
+        {
+            try
+            {
+                IsClientEditVisible = false;
+                if (EditedClient != null && EditedClient.ID != 0)
+                {
+                    _clientsManager.DeleteClient(EditedClient);
+                    RefreshClients();
+                }
+            }
+            catch (Exception)
+            {
+                System.Windows.MessageBox.Show("Can't delete client", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+
+        }
 
     public void SaveChanges()
     {
