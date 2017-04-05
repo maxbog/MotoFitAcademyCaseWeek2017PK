@@ -51,6 +51,7 @@
                 <DataGridTextColumn Header="SURNAME" Binding="{Binding Surname}" Width="145"/>
                 <DataGridTextColumn Header="SALARY" Binding="{Binding Salary}" Width="145"/>
                 <DataGridTextColumn Header="PESEL" Binding="{Binding PESEL}" Width="145"/>
+                <DataGridTextColumn Header="Is Apprentice?" Binding="{Binding isApprentice}" Width="145"/>
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" Grid.Column="1" Margin="7,5,0,5" Visibility="{Binding IsWorkerEditVisible, Converter={StaticResource BoolToVisibilityConverter}}">
