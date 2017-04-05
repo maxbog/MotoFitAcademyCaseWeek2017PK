@@ -3,4 +3,5 @@
 *.suo
 *.exe
 *.user
-
+*.orig
+.vs
