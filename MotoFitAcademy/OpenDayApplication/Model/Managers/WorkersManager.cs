@@ -17,66 +17,41 @@ namespace OpenDayApplication.Model.Managers
         public List<Worker> GetWorkers()
         {
             var _workers = new List<Worker>();
-            try
+            using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
             {
-
-                using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
-                {
-                    _workers = dataContext.Workers.ToList();
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _workers = dataContext.Workers.ToList();
             }
             return _workers;
         }
         public void AddWorker(Worker worker)
         {
-            try
+            using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
             {
-                using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
-                {
-                    dataContext.Workers.InsertOnSubmit(worker);
-                    dataContext.SubmitChanges();
-                }
+                dataContext.Workers.InsertOnSubmit(worker);
+                dataContext.SubmitChanges();
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
         }
         public void DeleteWorker(Worker worker)
         {
-            try
+            using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
             {
-                using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
-                {
-                    dataContext.Workers.Attach(worker);
-                    dataContext.Workers.DeleteOnSubmit(worker);
-                    dataContext.SubmitChanges();
-                }
+                dataContext.Workers.Attach(worker);
+                dataContext.Workers.DeleteOnSubmit(worker);
+                dataContext.SubmitChanges();
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
         }
         public void EditWorker(Worker worker)
         {
-            try
+            using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
             {
-                using (var dataContext = new MotoFitAcademyDataContext(Confiuration.GetSqlConnectionString()))
-                {
-                    var workerToEdit = dataContext.Workers.FirstOrDefault(w => w.ID == worker.ID);
-                    workerToEdit.Name = worker.Name;
-                    workerToEdit.Surname = worker.Surname;
-                    dataContext.SubmitChanges();
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                var workerToEdit = dataContext.Workers.FirstOrDefault(w => w.ID == worker.ID);
+                workerToEdit.Name = worker.Name;
+                workerToEdit.Surname = worker.Surname;
+                workerToEdit.Salary = worker.Salary;
+                workerToEdit.PESEL = worker.PESEL;
+                dataContext.SubmitChanges();
             }
         }
     }

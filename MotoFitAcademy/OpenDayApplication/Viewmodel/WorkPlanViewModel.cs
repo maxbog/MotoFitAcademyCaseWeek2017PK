@@ -193,15 +193,24 @@ namespace OpenDayApplication.Viewmodel
 
     public void SaveChanges()
     {
-      switch (_selectedOperation)
-      {
-        case CrudOperation.Create:
-          _workPlanManager.AddWorkPlanElement(EditedWorkPlanElement);
-          break;
-        case CrudOperation.Edit:
-          _workPlanManager.EditWorkPlanElement(EditedWorkPlanElement);
-          break;
-      }
+        try
+        {
+            switch (_selectedOperation)
+            {
+                case CrudOperation.Create:
+                    _workPlanManager.AddWorkPlanElement(EditedWorkPlanElement);
+                    break;
+                case CrudOperation.Edit:
+                    _workPlanManager.EditWorkPlanElement(EditedWorkPlanElement);
+                    break;
+            }
+        }
+        catch (Exception)
+        {
+            System.Windows.MessageBox.Show("Cannot save changes", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            return;
+        }
+
       RefreshWorkPlanElements();
       IsWorkPlanElementEditVisible = false;
     }
