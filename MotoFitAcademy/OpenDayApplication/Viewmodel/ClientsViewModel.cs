@@ -147,10 +147,11 @@ namespace OpenDayApplication.Viewmodel
 
 
                 catch (Exception)
+                {
                     MessageBox.Show("Cannot save changes.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
-                ImieIsValid(EditedClient.Name);
-
+                    ImieIsValid(EditedClient.Name);
+                }
                 if (isValid2 == false)
                 {
                     System.Windows.MessageBox.Show("Invalid Imie, type correct one!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
