@@ -66,9 +66,10 @@ namespace OpenDayApplication.Viewmodel
 
     public void AddClass()
     {
-      IsClassEditVisible = true;
-      _selectedOperation = CrudOperation.Create;
-      EditedClass = new Class();
+                IsClassEditVisible = true;
+                _selectedOperation = CrudOperation.Create;
+                EditedClass = new Class();
+       
     }
 
     public void EditClass()
