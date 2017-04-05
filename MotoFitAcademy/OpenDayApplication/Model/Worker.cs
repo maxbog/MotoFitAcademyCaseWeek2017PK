@@ -7,19 +7,21 @@ using System.Data.Linq.Mapping;
 
 namespace OpenDayApplication.Model
 {
-  [Table(Name = "Employees")]
-  public class Worker
-  {
-    [Column(Name = "Id", IsPrimaryKey = true, IsDbGenerated = true)]
-    public int ID { get; set; }
-    [Column]
-    public string Name { get; set; }
-    [Column]
-    public string Surname { get; set; }
+    [Table(Name = "Employees")]
+    public class Worker
+    {
+        [Column(Name = "Id", IsPrimaryKey = true, IsDbGenerated = true)]
+        public int ID { get; set; }
+        [Column]
+        public string Name { get; set; }
+        [Column]
+        public string Surname { get; set; }
 
-    [Column]
-    public double? Salary { get; set; }
-    [Column]
-    public string PESEL { get; set; }
-  }
+        [Column]
+        public double? Salary { get; set; }
+        [Column]
+        public string PESEL { get; set; }
+
+        public bool isApprentice { get { return Salary == 0; } }
+    }
 }
