@@ -89,17 +89,25 @@ namespace OpenDayApplication.Viewmodel
         }
 
     public void DeleteClient()
-    {
-      IsClientEditVisible = false;
-      if (EditedClient != null && EditedClient.ID != 0)
-      {
-        if (MessageBox.Show("Are you sure to delete this user?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.No)
-          return;
+        {
+            try
+            {
+                IsClientEditVisible = false;
+                if (EditedClient != null && EditedClient.ID != 0)
+                {
+        		if (MessageBox.Show("Are you sure to delete this user?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.No)
+          			return;
 
-        _clientsManager.DeleteClient(EditedClient);
-        RefreshClients();
-      }
-    }
+                    _clientsManager.DeleteClient(EditedClient);
+                    RefreshClients();
+                }
+            }
+            catch (Exception)
+            {
+                System.Windows.MessageBox.Show("Can't delete client", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+
+        }
 
     public void SaveChanges()
     {   
@@ -108,7 +116,7 @@ namespace OpenDayApplication.Viewmodel
 
             if (isValid == false)
             {
-                System.Windows.MessageBox.Show("Invalid E-mail, type correct one!!!!");
+                System.Windows.MessageBox.Show("Invalid E-mail, type correct one!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
@@ -137,7 +145,14 @@ namespace OpenDayApplication.Viewmodel
 
     private void RefreshClients()
     {
-      Clients = new List<Client>(_clientsManager.GetClients());
+            try
+            {
+                Clients = new List<Client>(_clientsManager.GetClients());
+            }
+            catch(Exception)
+            {
+                System.Windows.MessageBox.Show("Can't get client list", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
     }
 
         internal static bool EmailIsValid(string emailAddress)
