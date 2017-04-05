@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using OpenDayApplication.Model;
 using OpenDayApplication.Model.Managers;
 using System.Windows.Input;
+using System.Windows;
 
 namespace OpenDayApplication.Viewmodel
 {
@@ -108,13 +109,17 @@ namespace OpenDayApplication.Viewmodel
             RefreshRooms();
     }
 
-    public void DeleteRoom()
-    {
-            IsRoomEditVisible = false;
-            if (EditedRoom != null && EditedRoom.ID != 0)
+        public void DeleteRoom()
+        {
+            if (MessageBox.Show("Are you sure?",
+                "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                _roomsManager.DeleteRoom(EditedRoom);
-                RefreshRooms();
+                IsRoomEditVisible = false;
+                if (EditedRoom != null && EditedRoom.ID != 0)
+                {
+                    _roomsManager.DeleteRoom(EditedRoom);
+                    RefreshRooms();
+                }
             }
         }
 
