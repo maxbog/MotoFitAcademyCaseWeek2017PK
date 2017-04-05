@@ -113,7 +113,7 @@ namespace OpenDayApplication.Viewmodel
 
             if (isValid == false)
             {
-                System.Windows.MessageBox.Show("Invalid E-mail, type correct one!!!!");
+                System.Windows.MessageBox.Show("Invalid E-mail, type correct one!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
