@@ -7,6 +7,7 @@ using OpenDayApplication.Model;
 using OpenDayApplication.Model.Managers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Text.RegularExpressions;
@@ -14,55 +15,55 @@ using System.Text.RegularExpressions;
 
 namespace OpenDayApplication.Viewmodel
 {
-  public class ClientsViewModel : BaseViewModel
-  {
-    private readonly ClientsManager _clientsManager;
-    private List<Client> _clients;
-    private bool _isClientEditVisible;
-    private Client _editedClient;
+    public class ClientsViewModel : BaseViewModel
+    {
+        private readonly ClientsManager _clientsManager;
+        private List<Client> _clients;
+        private bool _isClientEditVisible;
+        private Client _editedClient;
 
-    public ICommand AddClientCommand { get; set; }
-    public ICommand SaveCommand { get; set; }
-    public ICommand DeleteClientCommand { get; set; }
-    public ICommand CancelCommand { get; set; }
+        public ICommand AddClientCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
+        public ICommand DeleteClientCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
-    public Client EditedClient
-    {
-      get { return _editedClient; }
-      set
-      {
-        _editedClient = value;
-        OnPropertyChanged("EditedClient");
-      }
-    }
-    public List<Client> Clients
-    {
-      get { return _clients; }
-      set
-      {
-        _clients = value;
-        OnPropertyChanged("Clients");
-      }
-    }
-    public bool IsClientEditVisible
-    {
-      get { return _isClientEditVisible; }
-      set
-      {
-        _isClientEditVisible = value;
-        OnPropertyChanged("IsClientEditVisible");
-      }
-    }
+        public Client EditedClient
+        {
+            get { return _editedClient; }
+            set
+            {
+                _editedClient = value;
+                OnPropertyChanged("EditedClient");
+            }
+        }
+        public List<Client> Clients
+        {
+            get { return _clients; }
+            set
+            {
+                _clients = value;
+                OnPropertyChanged("Clients");
+            }
+        }
+        public bool IsClientEditVisible
+        {
+            get { return _isClientEditVisible; }
+            set
+            {
+                _isClientEditVisible = value;
+                OnPropertyChanged("IsClientEditVisible");
+            }
+        }
 
-    public ClientsViewModel()
-    {
-      _clientsManager = GetClientsManager();
-      AddClientCommand = new BaseCommand(AddClient);
-      DeleteClientCommand = new BaseCommand(DeleteClient);
-      SaveCommand = new BaseCommand(SaveChanges);
-      CancelCommand = new BaseCommand(Cancel);
-      RefreshClients();
-    }
+        public ClientsViewModel()
+        {
+            _clientsManager = GetClientsManager();
+            AddClientCommand = new BaseCommand(AddClient);
+            DeleteClientCommand = new BaseCommand(DeleteClient);
+            SaveCommand = new BaseCommand(SaveChanges);
+            CancelCommand = new BaseCommand(Cancel);
+            RefreshClients();
+        }
 
         static Regex ValidEmailRegex = CreateValidEmailRegex();
 
@@ -77,18 +78,15 @@ namespace OpenDayApplication.Viewmodel
         }
 
         static bool isValid;
-        
-
-    public void AddClient()
-    {
-      IsClientEditVisible = true;
-      EditedClient = new Client();
 
 
-
+        public void AddClient()
+        {
+            IsClientEditVisible = true;
+            EditedClient = new Client();
         }
 
-    public void DeleteClient()
+        public void DeleteClient()
         {
             try
             {
@@ -106,10 +104,10 @@ namespace OpenDayApplication.Viewmodel
 
         }
 
-    public void SaveChanges()
-    {   
-    
-    	EmailIsValid(EditedClient.Address);
+        public void SaveChanges()
+        {
+
+            EmailIsValid(EditedClient.Address);
 
             if (isValid == false)
             {
@@ -117,40 +115,46 @@ namespace OpenDayApplication.Viewmodel
             }
             else
             {
-      try
-      {
-        _clientsManager.AddClient(EditedClient);
-        }
-      catch (Exception)
-      {
-        MessageBox.Show("Cannot save changes.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        return;    
-      }  
+                try
+                {
+                    if (_clientsManager.GetClients().Any(client => client.Address == EditedClient.Address))
+                        throw new InvalidOperationException("Client with specified e-mail address already exists!");
+                    _clientsManager.AddClient(EditedClient);
+                }
+                catch (InvalidOperationException e)
+                {
+                    MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Cannot save changes.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
 
                 IsClientEditVisible = false;
 
 
                 RefreshClients();
             }
-           
-    }
 
-    public void Cancel()
-    {
-      IsClientEditVisible = false;
-    }
+        }
 
-    private void RefreshClients()
-    {
+        public void Cancel()
+        {
+            IsClientEditVisible = false;
+        }
+
+        private void RefreshClients()
+        {
             try
             {
                 Clients = new List<Client>(_clientsManager.GetClients());
             }
-            catch(Exception)
+            catch (Exception)
             {
                 System.Windows.MessageBox.Show("Can't get client list", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
-    }
+        }
 
         internal static bool EmailIsValid(string emailAddress)
         {
