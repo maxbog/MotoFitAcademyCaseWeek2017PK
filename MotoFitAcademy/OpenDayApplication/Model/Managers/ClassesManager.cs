@@ -89,7 +89,7 @@ namespace OpenDayApplication.Model.Managers
                 {
                     var classToEdit = dataContext.Classes.FirstOrDefault(c => c.ID == _class.ID);
                     classToEdit.Name = _class.Name;
-                    classToEdit.Popularity = _class.Popularity;
+                    classToEdit.Difficulty_Level = _class.Difficulty_Level;
                     dataContext.SubmitChanges();
                 }
             }
