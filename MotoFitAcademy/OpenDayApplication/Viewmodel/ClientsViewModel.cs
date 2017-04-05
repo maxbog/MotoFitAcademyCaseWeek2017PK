@@ -20,9 +20,11 @@ namespace OpenDayApplication.Viewmodel
     private List<Client> _clients;
     private bool _isClientEditVisible;
     private Client _editedClient;
+    private CrudOperation _selectedOperation;
 
     public ICommand AddClientCommand { get; set; }
     public ICommand SaveCommand { get; set; }
+    public ICommand EditClientCommand { get; set; }
     public ICommand DeleteClientCommand { get; set; }
     public ICommand CancelCommand { get; set; }
 
@@ -58,6 +60,7 @@ namespace OpenDayApplication.Viewmodel
     {
       _clientsManager = GetClientsManager();
       AddClientCommand = new BaseCommand(AddClient);
+      EditClientCommand = new BaseCommand(EditClient);
       DeleteClientCommand = new BaseCommand(DeleteClient);
       SaveCommand = new BaseCommand(SaveChanges);
       CancelCommand = new BaseCommand(Cancel);
@@ -87,6 +90,20 @@ namespace OpenDayApplication.Viewmodel
 
 
         }
+    
+     public void EditClient()
+    {
+        if (EditedClient != null && EditedClient.ID != 0)
+        {
+            IsClientEditVisible = true;
+            _selectedOperation = CrudOperation.Edit;
+        }
+        else
+        {
+            IsClientEditVisible = false;
+        }
+    }
+
 
     public void DeleteClient()
         {
@@ -122,7 +139,16 @@ namespace OpenDayApplication.Viewmodel
             {
       try
       {
-        _clientsManager.AddClient(EditedClient);
+          switch (_selectedOperation)
+          {
+              case CrudOperation.Create:
+                  _clientsManager.AddClient(EditedClient);
+                  break;
+              case CrudOperation.Edit:
+                  _clientsManager.EditClient(EditedClient);
+                  break;
+          }
+        
         }
       catch (Exception)
       {
