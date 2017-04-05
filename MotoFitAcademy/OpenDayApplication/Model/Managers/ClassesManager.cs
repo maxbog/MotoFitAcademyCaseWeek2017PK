@@ -42,8 +42,8 @@ namespace OpenDayApplication.Model.Managers
             catch (Exception e)
             {
 
-                const string message = "Nie udało się. Spróbuj ponownie!";
-                const string caption = "Błąd";
+                const string message = "Sorry. Try again!";
+                const string caption = "Error";
                 var result = MessageBox.Show(message, caption);
 
                 // If the no button was pressed ...
@@ -64,8 +64,8 @@ namespace OpenDayApplication.Model.Managers
             catch (Exception e)
             {
 
-                const string message = "Nie udało się. Spróbuj ponownie!";
-                const string caption = "Błąd";
+                const string message = "Sorry. Try again!";
+                const string caption = "Error";
                 var result = MessageBox.Show(message, caption);
 
                 // If the no button was pressed ...
