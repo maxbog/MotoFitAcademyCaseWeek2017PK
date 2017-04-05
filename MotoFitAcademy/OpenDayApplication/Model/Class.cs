@@ -16,6 +16,6 @@ namespace OpenDayApplication.Model
     [Column]
     public string Name { get; set; }
     [Column(Name = "AddInfo")]
-    public string Popularity { get; set; }
+    public string Difficulty_Level { get; set; }
   }
 }
